@@ -8,8 +8,11 @@ poe_forum_url_root = "https://www.pathofexile.com/forum/view-thread/"
 patchnotes = []
 
 def handle_content_update(soup):
+	# Big content updates are special cases and need different extraction rules
 	notes = []
 	for note in soup.find("div", {'class': 'content'}).findAll("li"):
+		# Some changes - like ascendancies - are bunched up with the topic as 'strong' element before the list.
+		# Add the strong element text in front of the patch note to make it more searchable
 		if note.parent.findPrevious().name == 'strong':
 			notes.append(note.parent.findPrevious().text + ": " + note.text)
 		else:
@@ -47,6 +50,7 @@ for page in os.listdir(patchnote_dir):
 		if 'hotfix' in title.lower():
 			noteinfo['patch'] = "Hotfix"
 		elif soup.find(string=re.compile("Content Update")) is not None:
+			# If there's no patch number and page has 'Content update' in it, treat it as so
 			noteinfo['patch'] = re.search('[0-9]([A-Za-z0-9]|\.)*', soup.find(string=re.compile("Content Update"))).group(0)
 		else:
 			noteinfo['patch'] = "N/A"

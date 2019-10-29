@@ -30,7 +30,8 @@ function myFunction() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
-    filteredList = list.filter(word => word['note'].toUpperCase().indexOf(filter) > -1);
+    filteredList = list.filter(word => word['note'].toUpperCase().indexOf(filter) > -1 || 
+      word['patch'].toUpperCase().indexOf(filter) > -1);
     filteredList.sort((a, b) => Date.parse(b['date']) - Date.parse(a['date']))
     generateTable()
 }
