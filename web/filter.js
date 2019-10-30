@@ -21,6 +21,16 @@ async function create_list() {
         }
     }
 
+    window.onscroll = function() {
+      var d = document.documentElement;
+      var offset = d.scrollTop + window.innerHeight;
+      var height = d.offsetHeight;
+
+      if (offset === height) {
+        console.log('At the bottom');
+      }
+    };
+
     filteredList = list
     filteredList.sort((a, b) => Date.parse(b['date']) - Date.parse(a['date']))
     generateTable()
@@ -81,6 +91,9 @@ function generateTable() {
     }
     else break;
   }
+
+  var elem = document.getElementById('loading');
+  if (elem !== null) elem.parentNode.removeChild(elem);
   displayTable.innerHTML = '';
   displayTable.appendChild(frag);
   generateCountMessage();
