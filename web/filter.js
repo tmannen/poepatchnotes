@@ -23,16 +23,6 @@ async function create_list() {
         }
     }
 
-    window.onscroll = function() {
-      var d = document.documentElement;
-      var offset = d.scrollTop + window.innerHeight;
-      var height = d.offsetHeight;
-
-      if (offset === height) {
-        console.log('At the bottom');
-      }
-    };
-
     filteredList = list
     filteredList.sort((a, b) => Date.parse(b['date']) - Date.parse(a['date']))
     generateTableAlt()
@@ -45,6 +35,8 @@ function myFunction() {
     filteredList = list.filter(word => word['note'].toUpperCase().indexOf(filter) > -1 || 
       word['patch'].toUpperCase().indexOf(filter) > -1);
     filteredList.sort((a, b) => Date.parse(b['date']) - Date.parse(a['date']))
+    listIdx = 0;
+    maxDisplayLimit = 200;
     generateTableAlt()
 }
 
