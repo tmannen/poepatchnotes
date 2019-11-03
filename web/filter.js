@@ -6,6 +6,8 @@ var displayTable = document.getElementById('pnotes')
 var poeforumroot = "https://www.pathofexile.com/forum/view-thread/"
 var list = []
 var countMessage = document.querySelector('.count-message');
+var atBottom = false;
+var listIdx = 0;
 
 async function create_list() {
     const response = await fetch('http://s3.eu-north-1.amazonaws.com/poepatchnotes.com/data.json');
@@ -33,7 +35,7 @@ async function create_list() {
 
     filteredList = list
     filteredList.sort((a, b) => Date.parse(b['date']) - Date.parse(a['date']))
-    generateTable()
+    generateTableAlt()
 }
 
 function myFunction() {
@@ -43,7 +45,7 @@ function myFunction() {
     filteredList = list.filter(word => word['note'].toUpperCase().indexOf(filter) > -1 || 
       word['patch'].toUpperCase().indexOf(filter) > -1);
     filteredList.sort((a, b) => Date.parse(b['date']) - Date.parse(a['date']))
-    generateTable()
+    generateTableAlt()
 }
 
 
@@ -98,3 +100,54 @@ function generateTable() {
   displayTable.appendChild(frag);
   generateCountMessage();
 }
+
+function generateTableAlt() {
+  console.log("generating")
+  var frag = document.createDocumentFragment();
+  while (listIdx < filteredList.length) {
+    if (listIdx < maxDisplayLimit) {
+      var item = filteredList[listIdx]
+      var tr = document.createElement('tr');
+      var pnote = document.createElement('td')
+      var date = document.createElement('td')
+      var patch = document.createElement('td')
+      var url = document.createElement('td')
+      pnote.innerHTML = item['note']
+      date.innerHTML = item['date']
+      patch.innerHTML = item['patch']
+      var a = document.createElement('a');
+      a.href = poeforumroot.concat(item['url']);
+      a.appendChild(document.createTextNode("Source"))
+      url.appendChild(a)
+      tr.appendChild(pnote)
+      tr.appendChild(date)
+      tr.appendChild(patch)
+      tr.appendChild(url)
+      frag.appendChild(tr);
+      listIdx++;
+    }
+    else break;
+  }
+
+  var elem = document.getElementById('loading');
+  if (elem !== null) elem.parentNode.removeChild(elem);
+  if (atBottom === false) {
+    displayTable.innerHTML = '';
+  }
+  displayTable.appendChild(frag);
+  atBottom = false
+  generateCountMessage();
+}
+
+window.onscroll = function() {
+  var d = document.documentElement;
+  var offset = d.scrollTop + window.innerHeight;
+  var height = d.offsetHeight;
+
+  if (offset === height) {
+    console.log('At the bottom');
+    atBottom = true;
+    maxDisplayLimit += 200;
+    generateTableAlt();
+  }
+};
