@@ -20,7 +20,7 @@ def handle_content_update(soup):
 
 	return notes
 
-for page in os.listdir(patchnote_dir):
+for page in sorted(os.listdir(patchnote_dir)):
 	if page == '.DS_Store':
 		continue
 	with open(os.path.join(patchnote_dir, page), "r") as forumpage:
@@ -28,11 +28,7 @@ for page in os.listdir(patchnote_dir):
 
 	soup = BeautifulSoup(html, "lxml")
 	
-	try:
-		notes = [tr.text for tr in soup.find("tr", {'class': 'staff'}).findAll("li")]
-	except AttributeError:
-		print(page)
-		notes = handle_content_update(soup)
+	notes = handle_content_update(soup)
 
 	title = soup.title.text
 	topic = soup.find("h1", {'class': 'topBar'})

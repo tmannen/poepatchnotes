@@ -1,4 +1,6 @@
-# Crawl all the forum pages on dynasty scans
+# Crawl all the forum pages on poe patch notes
+# TODO: need to login
+# also write some ohjeita etta miten alotetaan skrapeus ja debug scraping jne linkextrator jne.
 
 from scrapy.spiders import CrawlSpider
 from scrapy.spiders import Rule
@@ -8,7 +10,7 @@ from scrapy import Item
 from scrapy import Field
 import hashlib
 
-class DynastyForumSpider(CrawlSpider):
+class POEPatchForumSpider(CrawlSpider):
     name = 'poepatchnotes'
     allowed_domains = ['pathofexile.com']
     start_urls = ['https://www.pathofexile.com/forum/view-forum/patch-notes/page/' + str(i) for i in range(1, 50)]
