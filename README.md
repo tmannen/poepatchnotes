@@ -9,6 +9,8 @@ TODO:
 - Content update json creation - remove top level li-items?
 - Automate json uploading to s3
 - handle patch notes with no list items somehow? just text. maybe add them but prefix with BIGNOTE or something?
+- TODO: trying to handle big notes: why new create_json has so many fewer notes? check what's in old notes but not in new
+- test on https://www.pathofexile.com/forum/view-thread/12419, weirdly some replies get scraped?
 
 How-to:
 
