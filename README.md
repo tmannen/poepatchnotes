@@ -17,3 +17,5 @@ How-to:
 - Update patch notes json:
     - Run spider again (TODO: crawl only first page?) ```scrapy runspider patchforums_scraper.py```
     - run create_json: ```python create_json.py```
+    - update date on index.html
+    - ```./update_s3.sh```

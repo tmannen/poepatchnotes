@@ -13,7 +13,7 @@ import hashlib
 class POEPatchForumSpider(CrawlSpider):
     name = 'poepatchnotes'
     allowed_domains = ['pathofexile.com']
-    start_urls = ['https://www.pathofexile.com/forum/view-forum/patch-notes/page/' + str(i) for i in range(1, 50)]
+    start_urls = ['https://www.pathofexile.com/forum/view-forum/patch-notes/page/' + str(i) for i in range(1, 5)]
 
     rules = (
         Rule(LinkExtractor(restrict_xpaths=["//div[@class='title']/a"]), follow=True, callback='parse_url'),

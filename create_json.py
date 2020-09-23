@@ -15,8 +15,24 @@ def handle_content_update(soup):
 		# Add the strong element text in front of the patch note to make it more searchable
 		if note.parent.findPrevious().name == 'strong':
 			notes.append(note.parent.findPrevious().text + ": " + note.text)
+		# super scuffed.. basically in Heist they updated patch notes so the skill is not the parent of the note
+		# this tests whether it has italic(?) text after previous strong element, in which case it's most likely a skill?
+		# fix later. maybe have a dict with all skills and can match previous strong? might not work, wrong skill might get added
+		# later: go through all strongs or something?
+		if note.parent.findPrevious().findPrevious().name== 'em':
+			probable_skill_name = note.parent.findPrevious().findPrevious().findPrevious().findPrevious().text
+			notes.append(probable_skill_name + ": " + note.text)
+			
 		else:
-			notes.append(note.text)
+			# TODO: kinda scuffed, fix?
+			if 'a href' not in str(note):
+				notes.append(note.text)
+			else:
+				print(note)
+
+	if len(notes) == 0:
+		print("no notes?")
+		print(soup.title)
 
 	return notes
 
